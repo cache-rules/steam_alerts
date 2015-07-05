@@ -15,30 +15,30 @@ Monitor and annoy your friends via text message when they start playing DOTA.
 * Activate the environment
 * Run `pip install requirements.txt`
 * Create a `config.json` file that looks something like this:
-
-        {
-          "steam_key": "YOUR_STEAM_KEY_HERE",
-          "twilio_sid": "YOUR_TWILIO_SID_HERE",
-          "twilio_auth_token": "YOUR_TWILIO_AUTH_TOKEN_HERE",
-          "twilio_number": "YOUR_TWILIO_NUMBER_HERE_WITH_COUNTRY_CODE",
-          "messages": [
-            "Hey Dummy, stop playing DOTA.",
-            "Looks like you're playing DOTA, stop.",
-            "You know, instead of playing DOTA, you could literally be doing anything else.",
-            "Stop playing DOTA",
-            "You know you're not being paid to play DOTA right?"
-          ],
-          "players": [{
-            "name": "Josh",
-            "phone_number": "NUMBER_TO_TEXT_HERE_WITH_COUNTRY_CODE",
-            "steam_id": "STEAM_ID_HERE"
-          }, {
-            "name": "Alan",
-            "phone_number": "NUMBER_TO_TEXT_HERE_WITH_COUNTRY_CODE",
-            "steam_id": "STEAM_ID_HERE"
-          }]
-        }
-
+```JSON
+    {
+      "steam_key": "YOUR_STEAM_KEY_HERE",
+      "twilio_sid": "YOUR_TWILIO_SID_HERE",
+      "twilio_auth_token": "YOUR_TWILIO_AUTH_TOKEN_HERE",
+      "twilio_number": "YOUR_TWILIO_NUMBER_HERE_WITH_COUNTRY_CODE",
+      "messages": [
+        "Hey Dummy, stop playing DOTA.",
+        "Looks like you're playing DOTA, stop.",
+        "You know, instead of playing DOTA, you could literally be doing anything else.",
+        "Stop playing DOTA",
+        "You know you're not being paid to play DOTA right?"
+      ],
+      "players": [{
+        "name": "Josh",
+        "phone_number": "NUMBER_TO_TEXT_HERE_WITH_COUNTRY_CODE",
+        "steam_id": "STEAM_ID_HERE"
+      }, {
+        "name": "Alan",
+        "phone_number": "NUMBER_TO_TEXT_HERE_WITH_COUNTRY_CODE",
+        "steam_id": "STEAM_ID_HERE"
+      }]
+    }
+```
 ## NOTES:
 
 * Phone numbers have to include their country code and can **only** have numbers in them, i.e. 15556667777
