@@ -3,6 +3,17 @@ import requests
 from steam_alerts import logger
 
 
+status_types = {
+    0: 'Offline',
+    1: 'Online',
+    2: 'Busy',
+    3: 'Away',
+    4: 'Snooze',
+    5: 'Looking to trade',
+    6: 'Looking to play'
+}
+
+
 class SteamService:
     def __init__(self, steam_key):
         self.steam_key = steam_key

@@ -4,17 +4,7 @@ import time
 from steam_alerts import logger
 from steam_alerts.messaging_service import MessagingService
 from steam_alerts.person import Person
-from steam_alerts.steam_service import SteamService
-
-status_types = {
-    0: 'Offline',
-    1: 'Online',
-    2: 'Busy',
-    3: 'Away',
-    4: 'Snooze',
-    5: 'Looking to trade',
-    6: 'Looking to play'
-}
+from steam_alerts.steam_service import SteamService, status_types
 
 
 def run_loop(config_path):
