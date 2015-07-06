@@ -21,6 +21,9 @@ Monitor and annoy your friends via text message when they start playing DOTA.
       "twilio_sid": "YOUR_TWILIO_SID_HERE",
       "twilio_auth_token": "YOUR_TWILIO_AUTH_TOKEN_HERE",
       "twilio_number": "YOUR_TWILIO_NUMBER_HERE_WITH_COUNTRY_CODE",
+      "debug": false, // Toggles if we send real messages or not. Optional, defaults to false.
+      "poll_rate": 60, // Determines how often we hit the Steam APIs. Optional, defaults to 60
+      "message_rate": 300, // Determines how often we message someone. Optional, defaults to 300
       "messages": [
         "Hey Dummy, stop playing DOTA.",
         "Looks like you're playing DOTA, stop.",
