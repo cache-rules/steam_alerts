@@ -15,3 +15,9 @@ class MessagingService:
         msg = random.choice(self.messages)
         logger.info('Sending message "{}" to {}'.format(msg, player.name))
         self.client.messages.create(body=msg, to=player.phone_number, from_=self.twilio_number)
+
+
+class MockMessagingService(MessagingService):
+    def send_message(self, player: Person):
+        msg = random.choice(self.messages)
+        logger.info('Sending message "{}" to {}'.format(msg, player.name))
