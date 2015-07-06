@@ -1,6 +1,7 @@
 # Copyright 2015 jydo inc. All rights reserved.
-from steam_alerts import run_loop
+from steam_alerts import PollService
 
 
 if __name__ == '__main__':
-    run_loop('./config.json')
+    ps = PollService('./config.json')
+    ps.start()
