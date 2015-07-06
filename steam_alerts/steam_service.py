@@ -4,13 +4,13 @@ from steam_alerts import logger
 
 
 status_types = {
-    0: 'Offline',
-    1: 'Online',
-    2: 'Busy',
-    3: 'Away',
-    4: 'Snooze',
-    5: 'Looking to trade',
-    6: 'Looking to play'
+    0: 'offline',
+    1: 'online',
+    2: 'busy',
+    3: 'away',
+    4: 'snooze',
+    5: 'looking to trade',
+    6: 'looking to play'
 }
 
 
@@ -25,7 +25,7 @@ class SteamService:
         return requests.get(url, params=payload).json()['response']['steamid']
 
     def get_player_statuses(self, steam_ids):
-        logger.info('Retrieving statuses.')
+        logger.info('Retrieving statuses...')
         url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/"
         params = {'key': self.steam_key, 'steamids': steam_ids}
 
