@@ -49,6 +49,9 @@ class PollService:
             except RequestException as e:
                 logger.error(e)
                 logger.error('An error occurred while trying to retrieve user statuses.')
+            except Exception as e:
+                logger.error(e)
+                logger.error('An unknown error occurred while trying to retrieve user statuses.')
             else:
                 for status in statuses:
                     person = self.people[status['steamid']]
