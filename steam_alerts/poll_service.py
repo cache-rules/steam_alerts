@@ -1,6 +1,7 @@
 # Copyright 2015 jydo inc. All rights reserved.
 import json
 import time
+from requests.exceptions import RequestException, ConnectionError, Timeout
 from steam_alerts import logger
 from steam_alerts.messaging_service import MessagingService, MockMessagingService
 from steam_alerts.person import Person
@@ -39,32 +40,48 @@ class PollService:
     def run_loop(self):
         logger.info('Starting run loop.')
         while True:
-            statuses = self.steam_service.get_player_statuses(','.join(self.people.keys()))
+            try:
+                statuses = self.steam_service.get_player_statuses(','.join(self.people.keys()))
+            except ConnectionError:
+                logger.error('Connection Error: The Steam server may be down, we may have lost internet access')
+            except Timeout:
+                logger.error('Timeout Error: The Steam server took too long to respond. Check your connection.')
+            except RequestException as e:
+                logger.error(e)
+                logger.error('An error occurred while trying to retrieve user statuses.')
+            else:
+                for status in statuses:
+                    person = self.people[status['steamid']]
+                    persona_state = status['personastate']
+                    old_state = status_types.get(person.persona_state, None)
+                    new_state = status_types[persona_state]
+                    old_game = person.game
+                    new_game = status.get('gameextrainfo')
+                    person.persona_state = persona_state
+                    person.game = new_game
+                    msg = '{} is {}'.format(person.name, new_state)
+                    can_send = person.last_messaged is None or ((time.time() - person.last_messaged) >= self.message_rate)
 
-            for status in statuses:
-                person = self.people[status['steamid']]
-                persona_state = status['personastate']
-                old_state = status_types.get(person.persona_state, None)
-                new_state = status_types[persona_state]
-                old_game = person.game
-                new_game = status.get('gameextrainfo')
-                person.persona_state = persona_state
-                person.game = new_game
-                msg = '{} is {}'.format(person.name, new_state)
-                can_send = person.last_messaged is None or ((time.time() - person.last_messaged) >= self.message_rate)
+                    if new_game is not None:
+                        msg += ' and is playing "{}"'.format(new_game)
+                    else:
+                        msg += ' and not in a game'
 
-                if new_game is not None:
-                    msg += ' and is playing "{}"'.format(new_game)
-                else:
-                    msg += ' and not in a game'
+                    if old_state != new_state or new_game != old_game:
+                        logger.info(msg)
 
-                if old_state != new_state or new_game != old_game:
-                    logger.info(msg)
-
-                if person.game is not None and can_send:
-                    if 'dota' in person.game.lower():
-                        self.messaging_service.send_message(person)
-                        person.last_messaged = time.time()
+                    if person.game is not None and can_send:
+                        if 'dota' in person.game.lower():
+                            try:
+                                self.messaging_service.send_message(person)
+                                person.last_messaged = time.time()
+                            except ConnectionError:
+                                logger.error('Connection Error: The Twilio server may be down, or we may have lost internet access')
+                            except Timeout:
+                                logger.error('Timeout Error: The Twilio server took too long to respond. Check your connection.')
+                            except RequestException as e:
+                                logger.error(e)
+                                logger.error('An error occurred while trying to send an annoying text message.')
 
             time.sleep(self.poll_rate)
 
