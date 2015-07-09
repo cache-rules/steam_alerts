@@ -25,11 +25,11 @@ Monitor and annoy your friends via text message when they start playing DOTA.
       "poll_rate": 60, // Determines how often we hit the Steam APIs. Optional, defaults to 60
       "message_rate": 300, // Determines how often we message someone. Optional, defaults to 300
       "messages": [
-        "Hey Dummy, stop playing DOTA.",
-        "Looks like you're playing DOTA, stop.",
-        "You know, instead of playing DOTA, you could literally be doing anything else.",
-        "Stop playing DOTA",
-        "You know you're not being paid to play DOTA right?"
+        "Hey Dummy, stop playing {game}.",
+        "Looks like you're playing {game}, stop it {name}.",
+        "You know {name}, instead of playing {game}, you could literally be doing anything else.",
+        "Stop playing {game} {name}!!!",
+        "{name}, you know you're not being paid to play {game} right?"
       ],
       "players": [{
         "name": "Josh",
@@ -39,7 +39,8 @@ Monitor and annoy your friends via text message when they start playing DOTA.
         "name": "Alan",
         "phone_number": "NUMBER_TO_TEXT_HERE_WITH_COUNTRY_CODE",
         "steam_id": "STEAM_ID_HERE"
-      }]
+      }],
+      "game_list": ["DOTA", "Civilization", "Team Fortress", "Counter-Strike"]
     }
 ```
 ## NOTES:
