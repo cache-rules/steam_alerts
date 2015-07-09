@@ -26,10 +26,10 @@ Monitor and annoy your friends via text message when they start playing DOTA.
       "message_rate": 300, // Determines how often we message someone. Optional, defaults to 300
       "messages": [
         "Hey Dummy, stop playing {game}.",
-        "Looks like you're playing {game}, stop.",
-        "You know, instead of playing {game}, you could literally be doing anything else.",
-        "Stop playing {game}",
-        "You know you're not being paid to play {game} right?"
+        "Looks like you're playing {game}, stop it {name}.",
+        "You know {name}, instead of playing {game}, you could literally be doing anything else.",
+        "Stop playing {game} {name}!!!",
+        "{name}, you know you're not being paid to play {game} right?"
       ],
       "players": [{
         "name": "Josh",

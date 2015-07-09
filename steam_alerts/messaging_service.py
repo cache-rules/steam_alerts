@@ -11,13 +11,16 @@ class MessagingService:
         self.twilio_number = twilio_number
         self.messages = messages
 
+    def generate_message(self, player_name, game_name):
+        return random.choice(self.messages).format(game=game_name, name=player_name)
+
     def send_message(self, player: Person, game_name):
-        msg = random.choice(self.messages).format(game=game_name)
+        msg = self.generate_message(player.name, game_name)
         logger.info('Sending message "{}" to {}'.format(msg, player.name))
         self.client.messages.create(body=msg, to=player.phone_number, from_=self.twilio_number)
 
 
 class MockMessagingService(MessagingService):
     def send_message(self, player: Person, game_name):
-        msg = random.choice(self.messages).format(game=game_name)
+        msg = self.generate_message(player.name, game_name)
         logger.info('Sending message "{}" to {}'.format(msg, player.name))
