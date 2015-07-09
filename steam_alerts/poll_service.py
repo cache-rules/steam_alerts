@@ -21,6 +21,7 @@ class PollService:
         self.message_rate = config.get('message_rate', 60 * 5)
         self.messages = config['messages']
         self.debug = config.get('debug', False)
+        self.game_list = config['game_list']
         self.people = {}
         self.steam_service = SteamService(self.steam_key)
 
@@ -74,17 +75,21 @@ class PollService:
                         logger.info(msg)
 
                     if person.game is not None and can_send:
-                        if 'dota' in person.game.lower():
-                            try:
-                                self.messaging_service.send_message(person)
-                                person.last_messaged = time.time()
-                            except ConnectionError:
-                                logger.error('Connection Error: The Twilio server may be down, or we may have lost internet access')
-                            except Timeout:
-                                logger.error('Timeout Error: The Twilio server took too long to respond. Check your connection.')
-                            except RequestException as e:
-                                logger.error(e)
-                                logger.error('An error occurred while trying to send an annoying text message.')
+                        for game in self.game_list:
+                            if game.lower() in person.game.lower():
+                                try:
+                                    self.messaging_service.send_message(person, game)
+                                    person.last_messaged = time.time()
+                                except ConnectionError:
+                                    logger.error('Connection Error: The Twilio server may be down, or we may have lost internet access')
+                                except Timeout:
+                                    logger.error('Timeout Error: The Twilio server took too long to respond. Check your connection.')
+                                except RequestException as e:
+                                    logger.error(e)
+                                    logger.error('An error occurred while trying to send an annoying text message.')
+                                finally:
+                                    # Game was found, no need to keep searching
+                                    break
 
             time.sleep(self.poll_rate)
 
